@@ -1,5 +1,5 @@
 rm(list = ls()); gc()
-setwd('~/Work/CoolingTrend//')
+setwd('~/Work/CoolingTrend/')
 library(mgcv)
 library(parallel)
 source('code/functions2.R')
