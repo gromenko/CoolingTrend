@@ -31,7 +31,7 @@ data$RES = data$FREQ - predict(fit.gam, type = 'response')
 for(iteration in 1:20){
 
   byyear = by(data, data$YEAR, function(x) x)
-  covList <- mclapply(byyear, getSTCovariance, mc.cores = detectCores())
+  covList <- mclapply(byyear, function(x) {getSTCovariance(x,stations)}, mc.cores = detectCores())
   
   ln <- length(byyear)
   ZMZ <- 0
