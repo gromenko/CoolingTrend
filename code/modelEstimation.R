@@ -58,7 +58,11 @@ for(iteration in 1:20){
     cat(i, " " ,try(is.na(covList[[i]][1,1])), "\n")
 }
 
-beta[1,1] / sqrt(diag(solve(ZMZ)))[1]
+write.table(t(beta), 'data/sample_est.txt', row.names = F, quote = F, sep = ",")
+write.table(t(sqrt(diag(solve(ZMZ)))), 'data/sample_sd.txt', row.names = F, quote = F, sep = ",")
+
+#beta[1,1] / sqrt(diag(solve(ZMZ)))[1]
+#convergence
 plot.ts(sapply(fitted[1:20], function(x) x[1,1]))
 
 #Models

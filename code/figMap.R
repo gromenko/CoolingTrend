@@ -78,11 +78,29 @@ postscript("figs/Data_U.eps", height=4, width=8)
 dev.off()
 
 
+est <- read.table('data/sample_est.txt', header = T, sep = ",")
+esd <- read.table('data/sample_sd.txt', header = T, sep = ",")
+data$RES <- data$FREQ - (data$F107 * est$F107 + est$INT + data$H_NT * est$H_NT)
 
-
-
-
+postscript("figs/Data_Trend.eps", height=4, width=8)
+  par(mar = c(2,4,1,4))
+  plot(cnt.df$DATE, cnt.df$COUNT , ylim = c(-5,5), type = 'n', ylab = "foF2, MHz")
   
+  for(cd in unique( data$CODE )){
+    ind <- data$CODE == cd
+    tmp <- data[data$CODE == cd, c('DATE', 'RES')]
+    tmp <- merge(cnt.df, tmp, by = 'DATE', all.x = T)
+    lines(tmp$DATE, tmp$RES, col = 'gray60')
+  }
+  
+  abline(h = 0, lty = 'dashed')
+  tm <- as.numeric(cnt.df$DATE - min(cnt.df$DATE))
+  lines(cnt.df$DATE, tm * est$TREND, col = 1, lwd = 1.5)
+  lines(cnt.df$DATE, tm * est$TREND + 3 * tm * esd$TREND , col = 1, lwd = 1, lty = 'dotted')
+  lines(cnt.df$DATE, tm * est$TREND - 3 * tm * esd$TREND , col = 1, lwd = 1, lty = 'dotted')
+dev.off()
+
+
 col1="gray60"
 col="gray20"
 lwd=0.2
